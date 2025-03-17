@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat + Videollamada</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-peer@9.11.1/simplepeer.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Chat en Tiempo Real + Videollamada</h1>
+
+    <h2>Chat</h2>
+    <input type="text" id="mensaje" placeholder="Escribe un mensaje..." />
+    <button onclick="enviarMensaje()">Enviar</button>
+    <div id="chat"></div>
+
+    <h2>Videollamada</h2>
+    <div id="video-container">
+        <video id="localVideo" autoplay playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+    </div>
+    <button id="video-button" onclick="iniciarLlamada()">Iniciar Llamada</button>
+    
+
+    <script>
+        const socket = io();
+
+        // Chat
+        socket.on("mensaje", (data) => {
+            document.getElementById("chat").innerHTML += `<p>${data}</p>`;
+        });
+
+        function enviarMensaje() {
+            const mensaje = document.getElementById("mensaje").value;
+            socket.emit("mensaje", mensaje);
+            document.getElementById("mensaje").value = "";
+        }
+
+        // WebRTC
+        let peer;
+        let localStream;
+
+        async function iniciarLlamada() {
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            document.getElementById("localVideo").srcObject = localStream;
+
+            peer = new SimplePeer({
+                initiator: true,
+                trickle: false,
+                stream: localStream
+            });
+
+            peer.on("signal", (data) => {
+                socket.emit("webrtc-offer", data);
+            });
+
+            peer.on("stream", (stream) => {
+                document.getElementById("remoteVideo").srcObject = stream;
+            });
+
+            socket.on("webrtc-answer", (data) => {
+                peer.signal(data);
+            });
+
+            socket.on("webrtc-candidate", (data) => {
+                peer.signal(data);
+            });
+        }
+
+        socket.on("webrtc-offer", (data) => {
+            if (!peer) {
+                responderLlamada(data);
+            }
+        });
+
+        async function responderLlamada(offer) {
+            localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+            document.getElementById("localVideo").srcObject = localStream;
+
+            peer = new SimplePeer({
+                initiator: false,
+                trickle: false,
+                stream: localStream
+            });
+
+            peer.signal(offer);
+
+            peer.on("signal", (data) => {
+                socket.emit("webrtc-answer", data);
+            });
+
+            peer.on("stream", (stream) => {
+                document.getElementById("remoteVideo").srcObject = stream;
+            });
+        }
+    </script>
+</body>
+</html>

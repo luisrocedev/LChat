@@ -1,0 +1,26 @@
+{
+  "name": "chat-videollamada",
+  "version": "1.0.0",
+  "description": "Una aplicación de chat en tiempo real con videollamadas",
+  "main": "main.js",
+  "scripts": {
+    "start": "node server.js",
+    "electron": "electron .",
+    "package-win": "electron-packager . ChatVideo --platform=win32 --arch=x64 --out=dist --overwrite",
+    "create-installer": "electron-installer-windows --src dist/ChatVideo-win32-x64/ --dest dist/installer/ --config installer.json"
+  },
+  "keywords": [],
+  "author": "Tu Nombre",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "http": "^0.0.1-security",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "electron": "^35.0.2",
+    "electron-packager": "^17.1.1",
+    "electron-installer-windows": "^2.1.0"
+  }
+}

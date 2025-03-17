@@ -1,0 +1,9 @@
+{
+  "src": "dist/ChatVideo-win32-x64/",
+  "dest": "dist/installer/",
+  "license": "LICENSE",
+  "authors": ["luisrocedev"],
+  "exe": "ChatVideo.exe",
+  "setupExe": "ChatVideo-Setup.exe",
+  "description": "Una aplicación de chat en tiempo real con videollamadas"
+}
