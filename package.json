@@ -7,7 +7,10 @@
     "start": "node server.js",
     "electron": "electron .",
     "package-win": "electron-packager . LChat --platform=win32 --arch=x64 --out=dist --overwrite",
-    "create-installer": "electron-installer-windows --src dist/LChat-win32-x64/ --dest dist/installer/ --config installer.json"
+    "package-mac": "electron-packager . LChat --platform=darwin --arch=x64 --out=dist --overwrite",
+    "package-linux": "electron-packager . LChat --platform=linux --arch=x64 --out=dist --overwrite",
+    "package-all": "electron-packager . LChat --platform=win32,darwin,linux --arch=x64 --out=dist --overwrite",
+    "create-installer-win": "electron-installer-windows --src dist/LChat-win32-x64/ --dest dist/installer/ --config installer.json"
   },
   "keywords": [],
   "author": "luisrocedev",
