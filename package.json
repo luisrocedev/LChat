@@ -1,16 +1,16 @@
 {
-  "name": "chat-videollamada",
+  "name": "LChat",
   "version": "1.0.0",
   "description": "Una aplicación de chat en tiempo real con videollamadas",
   "main": "main.js",
   "scripts": {
     "start": "node server.js",
     "electron": "electron .",
-    "package-win": "electron-packager . ChatVideo --platform=win32 --arch=x64 --out=dist --overwrite",
-    "create-installer": "electron-installer-windows --src dist/ChatVideo-win32-x64/ --dest dist/installer/ --config installer.json"
+    "package-win": "electron-packager . LChat --platform=win32 --arch=x64 --out=dist --overwrite",
+    "create-installer": "electron-installer-windows --src dist/LChat-win32-x64/ --dest dist/installer/ --config installer.json"
   },
   "keywords": [],
-  "author": "Tu Nombre",
+  "author": "luisrocedev",
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.2",
