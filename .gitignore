@@ -5,3 +5,5 @@ package-lock.json
 # Ignorar archivos generados por Electron Packager
 dist/
 installer/
+
+aprendizaje.md
